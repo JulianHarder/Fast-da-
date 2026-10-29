@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>FAST DA™ – Versuchsreihe 07</title>
+<!-- Hinweis: Skripte sind klassische Skripte (kein ES-Modul), damit index.html ohne Server per Doppelklick laeuft. -->
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/touch.css">
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="err" style="display:none;position:fixed;left:8px;bottom:8px;z-index:99;font:12px Consolas,monospace;color:#ff9a90;background:rgba(0,0,0,.88);border:1px solid #6b2c28;padding:6px 10px;max-width:92vw;user-select:text"></div>
+<div id="pad">
+  <div class="dpad">
+    <span></span><button data-d="1">▲</button><span></span>
+    <button data-d="8">◀</button><span></span><button data-d="2">▶</button>
+    <span></span><button data-d="4">▼</button><span></span>
+  </div>
+  <div class="acts"><button id="bSprint">SPRINT</button><button id="bJam">STÖRSENDER</button><button id="bMap">KARTE</button></div>
+</div>
+<div id="hud">
+  <button id="bPause" title="Pause (P)">II</button>
+  <button id="bSnd" title="Ton">♪</button>
+</div>
+
+<div id="ov-menu" class="ov">
+  <div class="panel">
+    <div class="kicker">Versuchsreihe 07 · Sektor Null</div>
+    <h1>Fast da<sup>™</sup></h1>
+    <div class="goal">
+      <div class="gh">Dein Ziel</div>
+      <div class="gr"><span class="gn">1</span><span>3 Datenkerne sichern &rarr; Tür &rarr; nächstes Level</span></div>
+      <div class="gr"><span class="gn">2</span><span>Die meisten Punkte holen &rarr; Platz 1</span></div>
+      <div class="gs">Nach dem dritten Kern startet die Übertragung: kurz überleben, dann öffnet sich eine leuchtende Tür. Hinlaufen, und der nächste Sektor beginnt. Es geht endlos weiter.</div>
+    </div>
+    <div class="namefld"><label for="pname">Proband-ID</label><input id="pname" maxlength="12" placeholder="Proband" autocomplete="off" spellcheck="false"></div>
+    <div class="btns two">
+      <button class="btn main" id="bStart">Versuch starten</button>
+      <button class="btn" id="bHelp">Anleitung</button>
+      <button class="btn" id="bBoard">Bestenliste</button>
+      <button class="btn" id="bFx">Effekte: normal</button>
+      <button class="btn" id="bSnd2">Ton: an</button>
+      <button class="btn" id="bMad">Intensität: Hoch</button>
+      <button class="btn" id="bSafe">Safe Space: aus</button>
+    </div>
+    <div id="top3"></div>
+    <div class="rec" id="rec"></div>
+    <div class="warn">Hinweis: Der Versuch kann Frustration auslösen. Wände, Böden und Anzeigen sind nicht zuverlässig.</div>
+  </div>
+</div>
+
+<div id="ov-brief" class="ov hidden">
+  <div class="panel wide">
+    <div class="kicker">Einsatzbesprechung · Karte antippen für Details</div>
+    <h2 id="brTitle">Sektor 01</h2>
+    <div class="brstats" id="brStats" style="display:none"></div>
+    <div class="brflow" id="brGoal"></div>
+    <div class="brgroups" id="brList"></div>
+    <div class="brlog" id="brLog"></div>
+    <div class="btns stick"><button class="btn main" id="bGo">Sektor starten</button><div class="rec" style="text-align:center;margin:0">Leertaste · Enter · Gamepad A oder Start</div></div>
+  </div>
+</div>
+
+<div id="ov-help" class="ov hidden">
+  <div class="panel">
+    <div class="kicker">Protokoll</div>
+    <h2>Anleitung</h2>
+    <div class="ctrl">
+      <b>Steuerung</b><span>Pfeiltasten oder WASD. Sprint: Shift oder Leertaste halten. Störsender: E oder Q. Kurz-Karte: M (zeigt 2 s lang das ganze Labyrinth und die Route, dann 30 s Pause). Pause: P oder Esc. Am Handy: Steuerkreuz unten (Wischen geht auch). Gamepad: Stick oder Steuerkreuz, A = Sprint, X/B = Störsender, Start = Pause.</span>
+      <b>Ziel</b><span>1. Sichern Sie die 3 leuchtenden Datenkerne (oben zeigt ein Pfeil zum nächsten). 2. Mit dem dritten startet die Übertragung: 8 Sekunden überleben (Extrem 10 s, Albtraum 12 s), währenddessen wird alles wilder. 3. Danach öffnet sich eine leuchtende Tür in der Außenwand (+15 s Zeit). Laufen Sie hin, dann beginnt der nächste Sektor. Ein Verlust vor der Tür setzt Kerne und Übertragung zurück, ist die Tür offen, bleibt sie offen.</span>
+      <b>Bestenliste</b><span>Ihr Lauf wird laufend automatisch gespeichert. Oben rechts sehen Sie Ihren Platz und wie viele Punkte bis zum nächsten fehlen. Überholte Plätze werden gemeldet. Die Liste gilt für diesen Browser.</span>
+      <b>Anzeige</b><span>Oben links: gesicherte Kerne als Symbole. Die gesicherten Kerne kreisen um Ihre Figur.</span>
+      <b>Items</b><span>Batterie: +8 s und mehr Licht. Störsender: lenkt Anomalien 7 s lang ab. Sprint verbraucht Ausdauer und macht Lärm.</span>
+      <b>Jäger</b><span>Rote Augen: verfolgt Sie. Blaue Augen: lauert reglos, stürmt bei Nähe los. Blind: hört nur Geräusche (Sprint, Umbauten). Teiler: spaltet Fragmente ab.</span>
+      <b>Umbauten</b><span>Wände erscheinen auch direkt vor Ihnen, kündigen sich aber kurz durch orange Blinken an. Rote Ringe zeigen, wo gleich Anomalien auftauchen.</span>
+      <b>Serie</b><span>Jeder Sektor ohne Verlust erhöht den Punkte-Multiplikator (bis ×2.5). Ein Verlust setzt ihn zurück. Nach mehreren Verlusten hintereinander wird es kurz etwas leichter.</span>
+      <b>Boden</b><span>Helle Risse kündigen einen Einsturz an. Ein Sturz setzt Sie zurück. Es bleibt immer ein Weg offen.</span>
+      <b>Schleusen</b><span>Gelb-schwarze Tore öffnen und schließen im Takt.</span>
+      <b>Kontamination</b><span>Gelbgrüner Nebel breitet sich aus. Länger darin stehen führt zum Verlust.</span>
+      <b>Laser</b><span>Rote Sperren in den Durchgängen. Nicht durchqueren, solange sie hell feuern.</span>
+      <b>Herzschlag</b><span>Je näher eine Anomalie, desto schneller der Puls. Jeder Verlust kostet 7 s.</span>
+      <b>Transfer-Pads</b><span>Weiße Ringe kommen paarweise (A–A, B–B). Wer auf einen tritt, landet auf dem Partner-Ring, eine feste Abkürzung.</span>
+      <b>Störungen</b><span>Stromausfall, Lichtflackern, falsche Anzeigen, Halluzinationen, zähe Flüssigkeit, Stimulans.</span>
+      <b>Safe Space</b><span>Optional im Menü. Ein fester ruhiger Ort links oben (türkis). Wer ihn betritt: Zeit und Übertragung stehen still, Anomalien werden zurückgedrängt, Gas und Einbrüche in der Nähe verschwinden. Wer ihn verlässt, spielt normal weiter. In der Bestenliste steht dann „·S“.</span>
+      <b>Übersicht</b><span>Vor jedem Sektor zeigt eine Seite, welche Gefahren kommen und was neu ist. Meldungen im Spiel erscheinen unter dem Spielfeld, nicht darüber.</span>
+      <b>Kollaps</b><span>Läuft der Zeitgeber ab, wird der Sektor neu aufgebaut. Der Versuch endet nie.</span>
+    </div>
+    <div class="rec" style="margin:0 0 14px">Ihr Ergebnis wird beim Verlassen ins Hauptmenü gespeichert.</div>
+    <div class="btns"><button class="btn" id="bHelpBack">Zurück</button></div>
+  </div>
+</div>
+
+<div id="ov-board" class="ov hidden">
+  <div class="panel">
+    <div class="kicker">Auswertung</div>
+    <h2>Bestenliste</h2>
+    <div class="board" id="boardList"></div>
+    <div class="rec" id="boardRec"></div>
+    <div class="btns" style="margin-top:14px"><button class="btn" id="bBoardBack">Zurück</button></div>
+  </div>
+</div>
+
+<div id="ov-pause" class="ov hidden">
+  <div class="panel">
+    <div class="kicker">Status</div>
+    <h2>Versuch unterbrochen</h2>
+    <div class="stats" id="pauseStats"></div>
+    <div class="btns">
+      <button class="btn main" id="bResume">Fortsetzen</button>
+      <button class="btn" id="bPauseBoard">Bestenliste ansehen</button>
+      <button class="btn" id="bToMenu">Hauptmenü (Ergebnis speichern)</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kern -->
+<script src="js/core/dom.js"></script>
+<script src="js/core/util.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/settings.js"></script>
+<!-- Ton -->
+<script src="js/audio/audio.js"></script>
+<script src="js/audio/sfx.js"></script>
+<!-- Spiellogik -->
+<script src="js/game/maze.js"></script>
+<script src="js/game/state.js"></script>
+<script src="js/game/texts.js"></script>
+<script src="js/game/effects.js"></script>
+<script src="js/game/pathing.js"></script>
+<script src="js/game/walls.js"></script>
+<script src="js/game/level.js"></script>
+<script src="js/game/doors-portals.js"></script>
+<script src="js/game/holes.js"></script>
+<script src="js/game/player.js"></script>
+<script src="js/game/chasers.js"></script>
+<script src="js/game/escape.js"></script>
+<script src="js/game/hazards.js"></script>
+<script src="js/game/scoring.js"></script>
+<script src="js/game/logbook.js"></script>
+<script src="js/game/items.js"></script>
+<script src="js/game/safe-space.js"></script>
+<script src="js/game/sector.js"></script>
+<script src="js/game/events.js"></script>
+<script src="js/game/update.js"></script>
+<script src="js/game/flow.js"></script>
+<!-- Darstellung -->
+<script src="js/render/theme.js"></script>
+<script src="js/render/viewport.js"></script>
+<script src="js/render/floor.js"></script>
+<script src="js/render/player.js"></script>
+<script src="js/render/exit.js"></script>
+<script src="js/render/obstacles.js"></script>
+<script src="js/render/hazards.js"></script>
+<script src="js/render/collectibles.js"></script>
+<script src="js/render/lighting.js"></script>
+<script src="js/render/hud.js"></script>
+<script src="js/render/renderer.js"></script>
+<!-- Oberflaeche -->
+<script src="js/ui/screens.js"></script>
+<script src="js/ui/briefing-icons.js"></script>
+<script src="js/ui/briefing.js"></script>
+<script src="js/ui/bindings.js"></script>
+<!-- Eingabe -->
+<script src="js/input/keyboard.js"></script>
+<script src="js/input/pointer.js"></script>
+<script src="js/input/touch-pad.js"></script>
+<script src="js/input/gamepad.js"></script>
+<!-- Start -->
+<script src="js/main.js"></script>
+</body>
+</html>

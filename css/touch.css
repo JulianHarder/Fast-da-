@@ -1,0 +1,7 @@
+/* Touch-Steuerkreuz fuer Handys */
+#pad{position:fixed;left:0;right:0;bottom:0;height:0;z-index:6;display:none;pointer-events:none}
+#pad .dpad{position:fixed;left:14px;bottom:14px;display:grid;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,58px);gap:5px;pointer-events:auto}
+#pad button{font:600 18px Consolas,Menlo,monospace;color:#c9d0d3;background:rgba(14,17,19,.72);border:1px solid #3b4348;border-radius:6px;padding:0;touch-action:none}
+#pad button:active,#pad button.on{background:var(--acc);color:#050607}
+#pad .acts{position:fixed;right:14px;bottom:18px;display:grid;gap:10px;pointer-events:auto}
+#pad .acts button{width:92px;height:62px;font-size:12px;letter-spacing:.12em}

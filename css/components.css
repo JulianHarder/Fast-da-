@@ -1,0 +1,61 @@
+/* Bedienelemente: Buttons, Formulare, Anleitung, Bestenliste, Einsatzbesprechung */
+.btns{display:grid;gap:8px}
+.btns.two{grid-template-columns:1fr 1fr}
+.btn{font:600 13px "Bahnschrift","Segoe UI",Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:#101315;
+  border:1px solid #333b41;border-radius:2px;padding:.95em 1em;cursor:pointer;text-align:center}
+.btn:hover,.btn:focus-visible{background:var(--acc);color:#050607;border-color:var(--acc);outline:none}
+.btn.main{grid-column:1/-1;background:var(--acc);color:#050607;border-color:var(--acc);font-size:14px;padding:1.1em}
+.btn.main:hover{background:#ecbd62}
+.btn.red{border-color:#6b2c28;color:#d0645b}.btn.red:hover{background:var(--red);color:#050607;border-color:var(--red)}
+.ctrl{display:grid;grid-template-columns:9.5em 1fr;gap:.5em 1em;margin:0 0 1.2em;font-size:.93em}
+.ctrl b{font:600 12px Consolas,Menlo,monospace;letter-spacing:.1em;color:var(--acc);text-transform:uppercase;padding-top:.15em}
+.ctrl span{color:#b7bfc3}
+.stats{display:grid;grid-template-columns:1fr auto;gap:7px 20px;margin:1em 0;font:13px Consolas,Menlo,monospace}
+.stats span:nth-child(odd){color:var(--dim);text-transform:uppercase;letter-spacing:.08em}.stats span:nth-child(even){text-align:right;color:var(--ink)}
+@media (max-width:520px){.ctrl{grid-template-columns:1fr}.ctrl b{padding-top:.6em}}
+.goal{border:1px solid #4a3d1c;background:rgba(217,164,65,.09);padding:14px 16px 12px;margin:14px 0 18px}
+.goal .gh{font:12px Consolas,Menlo,monospace;letter-spacing:.24em;color:var(--acc);text-transform:uppercase;margin-bottom:8px}
+.goal .gr{display:flex;gap:14px;align-items:baseline;margin:7px 0;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:clamp(15px,2.6vw,21px);line-height:1.2;color:#f3dba5}
+.goal .gn{color:var(--acc);font:700 clamp(20px,3.4vw,28px) Consolas,Menlo,monospace}
+.goal .gs{margin-top:8px;font-size:.82em;color:var(--dim);letter-spacing:.02em}
+.namefld{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.namefld label{font:12px Consolas,Menlo,monospace;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;white-space:nowrap}
+.namefld input{flex:1;min-width:0;font:14px Consolas,Menlo,monospace;color:var(--ink);background:#0d1011;border:1px solid #333b41;border-radius:2px;padding:.7em .8em;outline:none;-webkit-user-select:text;user-select:text}
+.namefld input:focus{border-color:var(--acc)}
+.board{display:grid;grid-template-columns:2.2em 1fr auto auto;gap:7px 14px;margin:1em 0;font:13px Consolas,Menlo,monospace;align-items:baseline}
+.board .h{color:var(--dim);text-transform:uppercase;letter-spacing:.1em;font-size:11px;border-bottom:1px solid var(--line);padding-bottom:5px}
+.board .rk{color:var(--acc)}.board .sc{text-align:right;color:var(--ink)}.board .sec{text-align:right;color:var(--dim)}
+.board .me{color:#fff}
+.panel.wide{width:min(880px,100%)}
+.brflow{display:flex;align-items:stretch;justify-content:space-between;gap:4px;margin:0 0 16px;padding:14px 10px 12px;border:1px solid #4a3d1c;background:rgba(217,164,65,.09)}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;min-width:0}
+.step svg{width:46px;height:46px}
+.step b{font:700 clamp(17px,3vw,24px) Consolas,Menlo,monospace;color:#f3dba5;letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
+.step span{font:11px Consolas,Menlo,monospace;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.flowarrow{align-self:center;color:var(--acc);font:300 34px/1 Consolas,Menlo,monospace;font-style:normal;opacity:.7}
+.brstats{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 12px}
+.brstats .hd{font:11px Consolas,Menlo,monospace;letter-spacing:.16em;color:var(--acc);text-transform:uppercase;margin-right:6px}
+.chip{display:inline-flex;gap:7px;align-items:baseline;padding:4px 10px;background:#0d1011;border:1px solid #1b2124;font:13px Consolas,Menlo,monospace}
+.chip i{font-style:normal;font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.chip b{color:var(--ink);font-weight:700}
+.brgroups{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin:0 0 14px}
+.brgroup.full{grid-column:1/-1}
+.brgroup h3{margin:0 0 7px;font:600 11px Consolas,Menlo,monospace;letter-spacing:.22em;color:var(--dim);text-transform:uppercase}
+.brcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.card{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 4px 9px;background:#0d1011;border:1px solid #1b2124;border-bottom:2px solid var(--c,#333b41);text-align:center;cursor:pointer}
+.card:hover{background:#12171a}
+.card svg{width:44px;height:44px}
+.card b{font-weight:600;font-size:.82em;color:var(--ink);line-height:1.15}
+.card .v{font:11px Consolas,Menlo,monospace;color:var(--dim);line-height:1.2}
+.card .n{position:absolute;top:5px;right:7px;font:700 15px Consolas,Menlo,monospace;color:var(--ink)}
+.card .d{display:none;margin-top:4px;font-size:.76em;line-height:1.3;color:#aab3b7}
+.card.open .d{display:block}
+.card .new{position:absolute;top:6px;left:6px;margin:0;padding:1px 4px;font-size:9px;letter-spacing:.1em}
+@media (max-width:720px){.brgroups{grid-template-columns:1fr}.step svg{width:38px;height:38px}.flowarrow{display:none}.brflow{padding:12px 4px;gap:2px}.step span{font-size:9px;letter-spacing:.03em}.step b{font-size:16px}}
+.new{font:700 10px Consolas,Menlo,monospace;letter-spacing:.14em;background:var(--acc);color:#050607;padding:1px 6px;margin-left:9px;vertical-align:middle;font-style:normal}
+.stick{position:sticky;bottom:-26px;padding:14px 0 26px;margin-bottom:-26px;background:linear-gradient(rgba(10,12,13,0),#0a0c0d 30%)}
+.brlog{margin:4px 0 14px;padding:9px 14px;border-left:3px solid var(--acc);background:rgba(217,164,65,.05);font:13px/1.5 Consolas,Menlo,monospace;color:#aab3b7}
+#top3{margin:.3em 0 .2em;font:13px Consolas,Menlo,monospace;border-top:1px solid var(--line);padding-top:.8em}
+#top3 .t{display:flex;justify-content:space-between;gap:12px;padding:2px 0;color:var(--ink)}
+#top3 .t span:first-child{color:var(--acc)}
+#top3 .g{color:var(--dim);letter-spacing:.08em;text-transform:uppercase;font-size:11px;margin-bottom:5px}

@@ -29,3 +29,9 @@ js/
   (z. B. `bind(...)` in `ui/bindings.js` oder `lsGet(...)` in `core/settings.js`), braucht die
   Funktionen aus früher geladenen Dateien. Neue Dateien daher passend einsortieren.
 - `Laborith Fast da.html` ist die ursprüngliche Ein-Datei-Fassung (nach der Bereinigung) und wird vom Spiel nicht benötigt.
+
+## To-do für morgen
+
+- **Löcher und Portale:** Löcher dürfen nicht auf Portalen entstehen. Generell darf nichts auf einem Loch liegen (Portal, Kern, Item, Tür, Startfeld). Liegt doch etwas darauf, dann das Loch umsetzen.
+- **Nur für Desktop optimieren:** Die Touch-Bedienung (Steuerkreuz, Wischen) wird nicht weiter gepflegt. Auf dem Handy soll stattdessen eine Info erscheinen, dass das Spiel nur auf einem größeren Display funktioniert.
+- **Eventuell mehr Features:** Ideen sammeln und entscheiden, was dazukommt.

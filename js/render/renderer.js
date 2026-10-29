@@ -42,7 +42,7 @@ function draw() {
   if (S.fade > 0) { g.fillStyle = `rgba(3,4,5,${0.8 * S.fade * S.fade})`; g.fillRect(0, 0, VW, VH); }
   if (S.flash > 0 && !reduced) { g.fillStyle = `rgba(120,10,10,${0.16 * S.flash / 0.15})`; g.fillRect(0, 0, VW, VH); }
   drawHud();
-  if (S.sectorDone && S.phase === 'reveal') { const k = clamp(1 - S.revT / 1.8, 0, 1); g.fillStyle = `rgba(255,244,214,${Math.min(1, k * k * 1.15)})`; g.fillRect(0, 0, VW, VH); }
+  if (S.sectorDone && S.phase === 'reveal') { const k = clamp(1 - S.revT / 1.8, 0, 1); g.fillStyle = `rgba(3,4,5,${Math.min(1, k * k * 1.15)})`; g.fillRect(0, 0, VW, VH); }
   if (S.banner && S.banner.mid && (S.phase === 'play' || S.phase === 'reveal')) { g.save(); g.translate(ox, oy); drawPlayer(); drawCoreOrbit(); g.restore(); }
 }
 

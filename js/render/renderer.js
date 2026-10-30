@@ -35,7 +35,7 @@ function draw() {
   }
   if (!reduced) {
     if (!grainCv) grainCv = makeGrain();
-    g.save(); g.globalAlpha = 0.045; g.translate(ri(192), ri(192)); g.fillStyle = g.createPattern(grainCv, 'repeat'); g.fillRect(-192, -192, VW + 192, VH + 192); g.restore();
+    g.save(); g.globalAlpha = 0.045; g.drawImage(grainCv, -ri(192), -ri(192)); g.restore();
   }
   drawFlyers();
   drawTimerFrame();

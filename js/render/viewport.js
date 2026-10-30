@@ -16,7 +16,7 @@ function layout() {
 function resize() {
   DPR = Math.min(window.devicePixelRatio || 1, 2);
   VW = innerWidth; VH = innerHeight; HUD_B = VH >= 560 ? 100 : 44;
-  cv.width = Math.round(VW * DPR); cv.height = Math.round(VH * DPR);
+  cv.width = Math.round(VW * DPR); cv.height = Math.round(VH * DPR); grainCv = null;
   layout();
 }
 

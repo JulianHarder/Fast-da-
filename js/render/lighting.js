@@ -34,6 +34,12 @@ function drawLighting() {
   const fx = DX[P.face] * cs * 0.6, fy = DY[P.face] * cs * 0.6;
   const gr = g.createRadialGradient(px + fx, py + fy, inner, px + fx, py + fy, outer * (1 + fl));
   gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(0.55, `rgba(0,0,0,${amb * 0.35})`); gr.addColorStop(1, `rgba(0,0,0,${amb})`);
-  g.save(); g.globalAlpha = 1 - 0.92 * mk; g.fillStyle = gr; g.fillRect(0, 0, VW, VH); g.restore();
+  // Der Verlauf ist ausserhalb von "or" konstant: nur das Quadrat um die Lampe mit Verlauf fuellen, den Rest einfarbig (viel billiger)
+  const lx = px + fx, ly = py + fy, or = outer * (1 + fl) + 1;
+  const x0 = clamp(Math.floor(lx - or), 0, VW), x1 = clamp(Math.ceil(lx + or), 0, VW), y0 = clamp(Math.floor(ly - or), 0, VH), y1 = clamp(Math.ceil(ly + or), 0, VH);
+  g.save(); g.globalAlpha = 1 - 0.92 * mk;
+  g.fillStyle = `rgba(0,0,0,${amb})`;
+  g.fillRect(0, 0, VW, y0); g.fillRect(0, y1, VW, VH - y1); g.fillRect(0, y0, x0, y1 - y0); g.fillRect(x1, y0, VW - x1, y1 - y0);
+  g.fillStyle = gr; g.fillRect(x0, y0, x1 - x0, y1 - y0); g.restore();
   if (mk > 0 && S.phase === 'play') { g.save(); g.translate(ox, oy); drawMapRoute(mk); g.restore(); }
 }

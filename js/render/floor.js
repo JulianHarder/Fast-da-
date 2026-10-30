@@ -45,5 +45,9 @@ function buildFloor() {
 function makeGrain() {
   const c = document.createElement('canvas'); c.width = c.height = 192; const x = c.getContext('2d'), im = x.createImageData(192, 192);
   for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
-  x.putImageData(im, 0, 0); return c;
+  x.putImageData(im, 0, 0);
+  // Einmal bildschirmgross vorkacheln, damit pro Frame nur ein drawImage noetig ist
+  const big = document.createElement('canvas'); big.width = VW + 192; big.height = VH + 192;
+  const bx = big.getContext('2d'); bx.fillStyle = bx.createPattern(c, 'repeat'); bx.fillRect(0, 0, big.width, big.height);
+  return big;
 }

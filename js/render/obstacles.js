@@ -12,7 +12,26 @@ function drawWallWarn() {
   g.setLineDash([]); g.restore();
 }
 
+let wallCache = null, wallKey = null, wallSnap = null;
+
+// Die Waende (mit weichem Schatten) aendern sich selten: nur bei Aenderung neu zeichnen, sonst fertiges Bild kopieren
 function drawWalls() {
+  const pad = Math.ceil(cs * 0.7), key = cols + 'x' + rows + '@' + cs + '/' + DPR + (reduced ? 'r' : '');
+  let same = wallCache && wallKey === key && wallSnap && wallSnap.length === walls.length;
+  if (same) for (let i = 0; i < walls.length; i++) if (wallSnap[i] !== walls[i]) { same = false; break; }
+  if (!same) {
+    if (!wallCache) wallCache = document.createElement('canvas');
+    wallCache.width = Math.round((cols * cs + pad * 2) * DPR); wallCache.height = Math.round((rows * cs + pad * 2) * DPR);
+    const gm = g; g = wallCache.getContext('2d'); g.setTransform(DPR, 0, 0, DPR, pad * DPR, pad * DPR);
+    try { paintWalls(); } finally { g = gm; }
+    wallKey = key; wallSnap = Array.from(walls);
+  }
+  g.drawImage(wallCache, -pad, -pad, cols * cs + pad * 2, rows * cs + pad * 2);
+  g.lineCap = 'square'; g.lineJoin = 'miter'; // wie zuvor: gilt fuer alles, was danach gezeichnet wird
+  paintWallAnims();
+}
+
+function paintWalls() {
   const lw = Math.max(5, cs * 0.22);
   g.lineCap = 'square'; g.lineJoin = 'miter';
   const path = () => {
@@ -29,6 +48,10 @@ function drawWalls() {
   if (!reduced) { g.shadowColor = 'rgba(0,0,0,.75)'; g.shadowBlur = cs * 0.3; g.shadowOffsetX = cs * 0.06; g.shadowOffsetY = cs * 0.08; }
   g.stroke(); g.shadowColor = 'transparent'; g.shadowBlur = 0; g.shadowOffsetX = 0; g.shadowOffsetY = 0;
   path(); g.lineWidth = lw * 0.5; g.strokeStyle = '#111416'; g.stroke();
+}
+
+function paintWallAnims() {
+  const lw = Math.max(5, cs * 0.22);
   for (const a of S.anims) {
     const x = a.c * cs, y = a.r * cs;
     g.beginPath();
